@@ -27,7 +27,20 @@ app.get('/todos', (req, res, next) => {
     });
 });
 
-app.put('/todos/:id', (req, res, next) => {
+app.post('/', (req, res, next) => {
+  const userInput = req.body;
+  db.getDB()
+    .collection(collection)
+    .insertOne(userInput, (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.json({ result, document: result.ops[0] });
+      }
+    });
+});
+
+app.put('/:id', (req, res, next) => {
   const todoID = req.params.id;
   const userInput = req.body;
 
