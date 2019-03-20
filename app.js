@@ -60,6 +60,20 @@ app.put('/:id', (req, res, next) => {
     );
 });
 
+app.delete('/:id', (req, res, next) => {
+  const todoID = req.params.id;
+
+  db.getDB()
+    .collection(collection)
+    .findOneAndDelete({ _id: db.getPrimaryKey(todoID) }, (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.json(result);
+      }
+    });
+});
+
 db.connect(err => {
   if (err) {
     console.log('Unable to connect to database');
